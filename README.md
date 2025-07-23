@@ -44,10 +44,10 @@ Ensure that your refactored code **passes all test cases**.
 
 ## ✍️ Submission Requirements
 
-1. Submit the refactored version of project.
-2. Make sure `getResult(String)` behaves exactly the same as before
-3. All test cases must pass
-4. Optional: Add comments to explain what refactorings you applied and why
+1. Commit for each minor refactoring. 
+2. Make sure `getResult(String)` behaves exactly the same as before.
+3. All test cases must pass, and don't update the test cases.
+4. Optional: Add comments to explain what refactorings you applied and why.
 
 ---
 
