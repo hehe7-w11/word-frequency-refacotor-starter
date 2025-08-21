@@ -8,38 +8,38 @@ import java.io.CharArrayWriter;
 import java.time.LocalDateTime;
 
 public class WordFrequencyGame {
-    public String getResult(String inputStr){
+    public String getResult(String sentence){
 
 
-        if (inputStr.split("\\s+").length==1) {
-            return inputStr + " 1";
+        if (sentence.split("\\s+").length==1) {
+            return sentence + " 1";
         } else {
 
             try {
 
                 //split the input string with 1 to n pieces of spaces
-                String[] arr = inputStr.split("\\s+");
+                String[] words = sentence.split("\\s+");
 
-                List<Input> inputList = new ArrayList<>();
-                for (String s : arr) {
+                List<Input> wordsList = new ArrayList<>();
+                for (String s : words) {
                     Input input = new Input(s, 1);
-                    inputList.add(input);
+                    wordsList.add(input);
                 }
 
                 //get the map for the next step of sizing the same word
-                Map<String, List<Input>> map =getListMap(inputList);
+                Map<String, List<Input>> wordsGroup =getListMap(wordsList);
 
                 List<Input> list = new ArrayList<>();
-                for (Map.Entry<String, List<Input>> entry : map.entrySet()){
+                for (Map.Entry<String, List<Input>> entry : wordsGroup.entrySet()){
                     Input input = new Input(entry.getKey(), entry.getValue().size());
                     list.add(input);
                 }
-                inputList = list;
+                wordsList = list;
 
-                inputList.sort((w1, w2) -> w2.getWordCount() - w1.getWordCount());
+                wordsList.sort((w1, w2) -> w2.getWordCount() - w1.getWordCount());
 
                 StringJoiner joiner = new StringJoiner("\n");
-                for (Input w : inputList) {
+                for (Input w : wordsList) {
                     String s = w.getValue() + " " +w.getWordCount();
                     joiner.add(s);
                 }
