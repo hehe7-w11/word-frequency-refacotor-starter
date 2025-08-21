@@ -20,29 +20,11 @@ public class WordFrequencyGame {
                 //split the input string with 1 to n pieces of spaces
                 String[] words = sentence.split("\\s+");
 
-                List<Input> wordsList = new ArrayList<>();
-                for (String s : words) {
-                    Input input = new Input(s, 1);
-                    wordsList.add(input);
-                }
+                List<Input> wordsList = calculateWordFrequencies(words);
 
-                //get the map for the next step of sizing the same word
-                Map<String, List<Input>> wordsGroup =getListMap(wordsList);
+                sortByFrequency(wordsList);
 
-                List<Input> list = new ArrayList<>();
-                for (Map.Entry<String, List<Input>> entry : wordsGroup.entrySet()){
-                    Input input = new Input(entry.getKey(), entry.getValue().size());
-                    list.add(input);
-                }
-                wordsList = list;
-
-                wordsList.sort((w1, w2) -> w2.getWordCount() - w1.getWordCount());
-
-                StringJoiner joiner = new StringJoiner("\n");
-                for (Input w : wordsList) {
-                    String s = w.getValue() + " " +w.getWordCount();
-                    joiner.add(s);
-                }
+                StringJoiner joiner = formatResult(wordsList);
                 return joiner.toString();
             } catch (Exception e) {
 
@@ -50,6 +32,48 @@ public class WordFrequencyGame {
                 return "Calculate Error";
             }
         }
+    }
+
+    private static StringJoiner formatResult(List<Input> wordsList) {
+        StringJoiner joiner = new StringJoiner("\n");
+        for (Input w : wordsList) {
+            String s = w.getValue() + " " + w.getWordCount();
+            joiner.add(s);
+        }
+        return joiner;
+    }
+
+    private static void sortByFrequency(List<Input> wordsList) {
+        wordsList.sort((w1, w2) -> w2.getWordCount() - w1.getWordCount());
+    }
+
+    private List<Input> calculateWordFrequencies(String[] words) {
+        List<Input> wordsList = createInputList(words);
+
+        Map<String, List<Input>> wordsGroup =getListMap(wordsList);
+
+        wordsList = convertToFrequencyList(wordsGroup);
+        return wordsList;
+    }
+
+    private static List<Input> convertToFrequencyList(Map<String, List<Input>> wordsGroup) {
+        List<Input> wordsList;
+        List<Input> list = new ArrayList<>();
+        for (Map.Entry<String, List<Input>> entry : wordsGroup.entrySet()){
+            Input input = new Input(entry.getKey(), entry.getValue().size());
+            list.add(input);
+        }
+        wordsList = list;
+        return wordsList;
+    }
+
+    private static List<Input> createInputList(String[] words) {
+        List<Input> wordsFrequencies = new ArrayList<>();
+        for (String s : words) {
+            Input input = new Input(s, 1);
+            wordsFrequencies.add(input);
+        }
+        return wordsFrequencies;
     }
 
 
